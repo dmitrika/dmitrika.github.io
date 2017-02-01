@@ -18,7 +18,7 @@
 
             var result = checkHtml(text);
 
-            document.querySelector('.result').innerText(JSON.stringify(result, null, 2));
+            document.querySelector('.result').innerText = JSON.stringify(result, null, 2);
         });
 
         function checkHtml(content) {
