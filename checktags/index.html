@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        Insert html here:
+        <textarea class="html" name="html" id="" cols="30" rows="10"></textarea>
+        <button class="check">Check it!</button>
+    </div>
+    <div class="result"></div>
+
+    <script>
+        document.querySelector('.check').addEventListener('click', () => {
+            let text = document.querySelector('.html').value;
+
+            var result = checkHtml(text);
+
+            document.querySelector('.result').innerText(JSON.stringify(result, null, 2));
+        });
+
+        function checkHtml(content) {
+            let tags = content.match(/<[^>]*[^/]>/g);
+            let counters = {};
+
+            let singleHtmlTags = [
+                'br',
+                'col',
+                'hr',
+                'img'
+            ];
+
+            tags.forEach((tag, index) => {
+                let tagName = tag.match(/<\/?([a-z0-9]+)/i)[1];
+
+                let isClosingTag = tag.indexOf('/') > -1;
+
+                if (singleHtmlTags.indexOf(tagName) > -1) {
+                    return;
+                } if (isClosingTag) {
+                    counters[tagName] = counters[tagName] ? counters[tagName] + 1 : 1;
+                } else {
+                    counters[tagName] = counters[tagName] ? counters[tagName] - 1 : -1;
+                }
+            });
+
+            return counters;
+        }
+    </script>
+</body>
+</html>
