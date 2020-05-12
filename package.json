@@ -1,0 +1,26 @@
+{
+  "name": "dmitrika.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build index.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitrika/dmitrika.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmitrika/dmitrika.github.io/issues"
+  },
+  "homepage": "https://github.com/dmitrika/dmitrika.github.io",
+  "devDependencies": {
+    "gh-pages": "^2.2.0",
+    "parcel": "^1.12.4"
+  }
+}
