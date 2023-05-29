@@ -1,0 +1,39 @@
+body, button, input {
+	font-family: 'Poppins', sans-serif;
+}
+
+.students {
+	display: flex;
+	list-style-type: none;
+	flex-wrap: wrap;
+	padding: 0;
+}
+
+.student {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+.student__control {
+	cursor: pointer;
+	width: 200px;
+	height: 150px;
+	border: none;
+	border-radius: 10px;
+	background-color: #b6e30f;
+}
+
+.student__control--counting {
+	background-color: #e83c4f;
+}
+
+.form__error {
+	color: #e83c4f;
+}
