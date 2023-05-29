@@ -17,7 +17,7 @@ body, button, input {
 	flex-direction: column;
 	width: 250px;
 	height: 250px;
-	margin: 10px;
+	margin: 5px;
 	border: 2px solid black;
 	border-radius: 10px;
 }
