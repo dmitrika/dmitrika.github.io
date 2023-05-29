@@ -1,5 +1,5 @@
-const start = 'Start'
-const stop  = 'Stop'
+const start = '▶️ Start'
+const stop  = '⏹ Stop'
 
 const studentsListEl   = document.getElementById('students')
 const currentCounterEl = document.getElementById('current-counter')
@@ -12,6 +12,21 @@ let students       = []
 let currentStudent = ''
 let counters       = {}
 let intervals      = {}
+
+function formatTime(count) {
+    let minutes = Math.floor(count / 60);
+    let seconds = count - (minutes * 60);
+
+    if (minutes === 0) {
+    	return `${seconds}s`
+    }
+
+    if (seconds < 10) {
+    	seconds = `0${seconds}`
+    }
+
+    return `${minutes}m ${seconds}s`
+}
 
 function startCount(counterId, cb) {
 	intervals[counterId] = setInterval(() => {
@@ -29,24 +44,23 @@ function stopCount(counterId) {
 	clearInterval(intervals[counterId])
 }
 
+function stopCurrentStudentCount() {
+	const student = students.find(student => student.studentName === currentStudent)
 
-function updateCurrentStudent(studentName) {
-	const prevStudent = students.find(student => student.studentName === currentStudent)
-
-	if (prevStudent) {
-		const prevStudentControlEl = document.getElementById(prevStudent.controlId)
-		prevStudentControlEl.innerHTML = start
-		prevStudentControlEl.classList.remove('student__control--counting');
+	if (!student) {
+		return
 	}
 
-	currentStudentEl.innerHTML = studentName
-	currentStudent = studentName
+	stopCount(student.counterId)
+
+	const studentControlEl = document.getElementById(student.controlId)
+	studentControlEl.innerHTML = start
+	studentControlEl.classList.remove('student__control--counting');
 }
 
-function stopAllcounters() {
-	Object.values(intervals).forEach((interval) => {
-		clearInterval(interval)
-	})
+function setCurrentStudentName(studentName) {
+	currentStudentEl.innerHTML = studentName
+	currentStudent = studentName
 }
 
 function resetCurrentCount() {
@@ -58,7 +72,7 @@ function startCurrentCount() {
 	resetCurrentCount()
 
 	startCount('current', (count) => {
-		currentCounterEl.innerHTML = count
+		currentCounterEl.innerHTML = formatTime(count)
 	})
 }
 
@@ -88,18 +102,14 @@ form.addEventListener('submit', (event) => {
 	const counterId = `counter-${studentName}`
 	const controlId = `control-${studentName}`
 
-	students.push({
-		studentName,
-		counterId,
-		controlId,
-	})
+	students.push({ studentName, counterId, controlId })
 
 	let student = document.createElement("li");
 	student.innerHTML = `
 		<li class="student">
 			<div>${studentName}</div>
-			<div> Total: <span id="${counterId}" class="student__counter">0</span> sec</div>
-			<button id="${controlId}" class="student__control">Start</button>
+			<div> Total: <span id="${counterId}" class="student__counter">0s</span></div>
+			<button id="${controlId}" class="student__control">${start}</button>
 		</li>
 	`
 
@@ -110,24 +120,26 @@ form.addEventListener('submit', (event) => {
 	const studentControl = document.getElementById(controlId)
 
 	studentControl.addEventListener('click', () => {
-		if (studentControl.innerHTML === start) {
-			updateCurrentStudent(studentName)
+		stopCurrentCount()
 
-			stopAllcounters()
+		if (studentControl.innerHTML === start) {
+			stopCurrentStudentCount()
+			setCurrentStudentName(studentName)
+			startCurrentCount()
 
 			startCount(counterId, (count) => {
-				studentCounter.innerHTML = count
+				studentCounter.innerHTML = formatTime(count)
 			})
-
-			startCurrentCount()
 
 			studentControl.innerHTML = stop
 			studentControl.classList.add('student__control--counting');
 		} else {
 			stopCount(counterId)
-			stopCurrentCount()
+
 			studentControl.innerHTML = start
 			studentControl.classList.remove('student__control--counting');
 		}
 	})
+
+	form.reset()
 })

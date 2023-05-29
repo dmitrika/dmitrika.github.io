@@ -1,5 +1,6 @@
 body, button, input {
 	font-family: 'Poppins', sans-serif;
+	color: #000000;
 }
 
 .students {
@@ -14,8 +15,8 @@ body, button, input {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	width: 200px;
-	height: 200px;
+	width: 250px;
+	height: 250px;
 	margin: 10px;
 	border: 2px solid black;
 	border-radius: 10px;
@@ -23,11 +24,12 @@ body, button, input {
 
 .student__control {
 	cursor: pointer;
-	width: 200px;
-	height: 150px;
+	width: 250px;
+	height: 200px;
 	border: none;
 	border-radius: 10px;
 	background-color: #b6e30f;
+	font-size: 32px;
 }
 
 .student__control--counting {
