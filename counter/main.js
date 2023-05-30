@@ -29,7 +29,7 @@ function formatTime(count) {
 }
 
 function startCount(counterId, cb) {
-	intervals[counterId] = setInterval(() => {
+	intervals[counterId] = setInterval(function () {
 		if (counters[counterId]) {
 			counters[counterId] += 1
 		} else {
@@ -45,7 +45,9 @@ function stopCount(counterId) {
 }
 
 function stopCurrentStudentCount() {
-	const student = students.find(student => student.studentName === currentStudent)
+	const student = students.find(function (student) {
+		return student.studentName === currentStudent
+	})
 
 	if (!student) {
 		return
@@ -58,11 +60,6 @@ function stopCurrentStudentCount() {
 	studentControlEl.classList.remove('student__control--counting');
 }
 
-function setCurrentStudentName(studentName) {
-	currentStudentEl.innerHTML = studentName
-	currentStudent = studentName
-}
-
 function resetCurrentCount() {
 	counters['current'] = 0
 	currentCounterEl.innerHTML = 0
@@ -71,7 +68,7 @@ function resetCurrentCount() {
 function startCurrentCount() {
 	resetCurrentCount()
 
-	startCount('current', (count) => {
+	startCount('current', function(count) {
 		currentCounterEl.innerHTML = formatTime(count)
 	})
 }
@@ -80,16 +77,22 @@ function stopCurrentCount() {
 	stopCount('current')
 }
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', function (event) {
 	event.preventDefault();
 
 	const formData    = new FormData(event.target);
 	const studentName = formData.get('studentName')
 
 	
-	document.getElementById('error')?.remove()
+	const errorEl = document.getElementById('error')
+	if (errorEl) {
+		errorEl.remove()
+	}
+	
 
-	const hasDuplicate = students.some(s => s.studentName === studentName)
+	const hasDuplicate = students.some(function (s) {
+		return s.studentName === studentName
+	})
 	if (hasDuplicate) {
 		const newErrorEl = document.createElement('div')
 		newErrorEl.id = 'error'
@@ -119,15 +122,18 @@ form.addEventListener('submit', (event) => {
 	const studentCounter = document.getElementById(counterId)
 	const studentControl = document.getElementById(controlId)
 
-	studentControl.addEventListener('click', () => {
+	studentControl.addEventListener('click', function (){
 		stopCurrentCount()
 
 		if (studentControl.innerHTML === start) {
 			stopCurrentStudentCount()
-			setCurrentStudentName(studentName)
+
+			currentStudent = studentName
+			currentStudentEl.innerHTML = studentName
+			
 			startCurrentCount()
 
-			startCount(counterId, (count) => {
+			startCount(counterId, function (count) {
 				studentCounter.innerHTML = formatTime(count)
 			})
 

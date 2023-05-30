@@ -20,6 +20,19 @@ body, button, input {
 	margin: 5px;
 	border: 2px solid black;
 	border-radius: 10px;
+
+	animation-duration: 1s;
+  	animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 100%;
+  }
+
+  to {
+    margin-left: 0%;
+  }
 }
 
 .student__control {
@@ -30,6 +43,7 @@ body, button, input {
 	border-radius: 10px;
 	background-color: #b6e30f;
 	font-size: 32px;
+	transition: background-color 300ms ease;
 }
 
 .student__control--counting {
